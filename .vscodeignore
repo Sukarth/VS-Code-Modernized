@@ -1,0 +1,7 @@
+.vscode/**
+.gitignore
+node_modules/**
+*.vsix
+material-code-main/**
+
+# Add other files/folders to ignore during packaging if needed

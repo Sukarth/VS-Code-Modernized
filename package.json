@@ -1,0 +1,63 @@
+{
+  "name": "vscode-modernized",
+  "displayName": "VS Code Modernized",
+  "description": "Gives VS Code a modern look through rounded corners, custom styling and UI enhancements.",
+  "version": "0.1.0",
+  "publisher": "Sukarth Acharya",
+  "author": {
+    "name": "Sukarth Acharya"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Themes",
+    "Other"
+  ],
+  "keywords": [
+    "theme",
+    "ui",
+    "customization",
+    "modern",
+    "style",
+    "rounded corners",
+    "windows 11"
+  ],
+  "icon": "assets/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/vscode-modernized.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/vscode-modernized/issues"
+  },
+  "activationEvents": [
+    "onCommand:vscode-modernized.applyStyles",
+    "onCommand:vscode-modernized.removeStyles"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscode-modernized.applyStyles",
+        "title": "VS Code Modernized: Apply Styles"
+      },
+      {
+        "command": "vscode-modernized.removeStyles",
+        "title": "VS Code Modernized: Remove Styles"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "",
+    "watch": ""
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.75.0",
+    "@types/node": "18.x"
+  },
+  "dependencies": {
+    "@vscode/sudo-prompt": "^9.3.1"
+  }
+}
