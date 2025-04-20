@@ -55,7 +55,7 @@ Use the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) to access the followin
 | Command                          | Title                             | Description                                                                                              |
 | :------------------------------- | :-------------------------------- | :------------------------------------------------------------------------------------------------------- |
 | `vscode-modernized.applyStyles`  | VS Code Modernized: Apply Styles  | Applies the custom styles to VS Code.                                                                    |
-| `vscode-modernized.removeStyles` | VS Code Modernized: Remove Styles | Removes the custom styles from VS Code, reverting to default. (Does not automatically revert the theme). |
+| `vscode-modernized.removeStyles` | VS Code Modernized: Remove Styles | Removes the custom styles from VS Code, reverting to default. (Does not automatically revert the theme). | 
 
 ### Reverting Changes
 
