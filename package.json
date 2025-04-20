@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/sukarth/VS-Code-Modernized.git"
   },
-  "icon": "https://raw.githubusercontent.com/sukarth/VS-Code-Modernized/main/assets/icon.png",
+  "icon": "assets/icon.png",
   "activationEvents": [
     "onStartupFinished"
   ],

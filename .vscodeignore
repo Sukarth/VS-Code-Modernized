@@ -11,6 +11,8 @@ webpack.config.js
 .gitignore
 scripts/**
 assets/**
+dist/**
 
+!assets/icon.png
 !out/extension.js
 !out/extension.js.map
