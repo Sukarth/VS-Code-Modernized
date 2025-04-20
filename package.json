@@ -1,12 +1,9 @@
 {
   "name": "vscode-modernized",
   "displayName": "VS Code Modernized",
-  "description": "Gives VS Code a modern look through rounded corners, custom styling and UI enhancements.",
+  "description": "A modern UI redesign for VS Code that brings customizable spacing, rounded corners, and a refined dark theme.",
   "version": "0.1.0",
-  "publisher": "Sukarth Acharya",
-  "author": {
-    "name": "Sukarth Acharya"
-  },
+  "publisher": "sukarth",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -14,28 +11,14 @@
     "Themes",
     "Other"
   ],
-  "keywords": [
-    "theme",
-    "ui",
-    "customization",
-    "modern",
-    "style",
-    "rounded corners",
-    "windows 11"
-  ],
-  "icon": "assets/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/vscode-modernized.git"
-  },
-  "bugs": {
-    "url": "https://github.com/your-username/vscode-modernized/issues"
+    "url": "https://github.com/sukarth/VS-Code-Modernized.git"
   },
   "activationEvents": [
-    "onCommand:vscode-modernized.applyStyles",
-    "onCommand:vscode-modernized.removeStyles"
+    "onStartupFinished"
   ],
-  "main": "./extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
@@ -46,16 +29,64 @@
         "command": "vscode-modernized.removeStyles",
         "title": "VS Code Modernized: Remove Styles"
       }
-    ]
+    ],
+    "themes": [
+      {
+        "label": "Deep Blue Modern",
+        "uiTheme": "vs-dark",
+        "path": "./themes/deep-blue-theme.json"
+      }
+    ],
+    "configuration": {
+      "title": "VS Code Modernized",
+      "properties": {
+        "vscode-modernized.autoApplyTheme": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically apply the 'Deep Blue Modern' theme when enabling styles. Disable this if you prefer to use your own theme."
+        },
+        "vscode-modernized.ui.spacing": {
+          "type": "string",
+          "default": "0.35rem",
+          "description": "Controls the general spacing used for margins and padding around UI elements (e.g., sidebar, editor group). Use positive CSS units like rem, px, em (e.g., '0.5rem', '10px'). Warning: Setting extreme values might negatively impact usability.",
+          "pattern": "^\\d+(\\.\\d+)?(rem|em|px|%|vh|vw|vmin|vmax)$",
+          "patternErrorMessage": "Please enter a valid positive CSS unit (e.g., '0.5rem', '8px')."
+        },
+        "vscode-modernized.ui.borderRadius": {
+          "type": "string",
+          "default": "0.5rem",
+          "description": "Controls the roundness of corners for elements like tabs, sidebar, panels, and inputs. Use positive CSS units like rem, px, em (e.g., '0.5rem', '8px'). Warning: Setting extreme values might negatively impact usability.",
+          "pattern": "^\\d+(\\.\\d+)?(rem|em|px|%|vh|vw|vmin|vmax)$",
+          "patternErrorMessage": "Please enter a valid positive CSS unit (e.g., '0.5rem', '8px')."
+        },
+        "vscode-modernized.ui.tabSpacing": {
+          "type": "string",
+          "default": "0.2rem",
+          "description": "Controls the spacing between editor tabs. Use positive CSS units like rem, px, em (e.g., '0.2rem', '4px'). Warning: Setting extreme values might negatively impact usability.",
+          "pattern": "^\\d+(\\.\\d+)?(rem|em|px|%|vh|vw|vmin|vmax)$",
+          "patternErrorMessage": "Please enter a valid positive CSS unit (e.g., '0.2rem', '4px')."
+        }
+      }
+    }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "",
-    "watch": ""
+    "vscode:prepublish": "npm install && npm run compile",
+    "release": "node scripts/create-release.js",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
   },
   "devDependencies": {
+    "@octokit/rest": "^21.1.1",
+    "@types/node": "18.x",
     "@types/vscode": "^1.75.0",
-    "@types/node": "18.x"
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/vsce": "^3.3.2",
+    "dotenv": "^16.5.0",
+    "eslint": "^8.40.0",
+    "inquirer": "^8.2.5",
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "@vscode/sudo-prompt": "^9.3.1"

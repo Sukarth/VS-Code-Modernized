@@ -1,7 +1,13 @@
 .vscode/**
-.gitignore
+.vscode-test/**
 node_modules/**
-*.vsix
-material-code-main/**
+!node_modules/@vscode/sudo-prompt/**
+out/**
+src/**
+tsconfig.json
+yarn.lock
+webpack.config.js
+.gitignore
 
-# Add other files/folders to ignore during packaging if needed
+!out/extension.js
+!out/extension.js.map

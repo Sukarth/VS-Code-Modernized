@@ -4,45 +4,26 @@
     --tab-spacing: 0.2rem;
 }
 
-
-/* --- Editor Tab Styling --- */
-/* General tab label styling (line height, text color) */
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab .tab-label {
     line-height: 32px !important;
     color: var(--vscode-tab-activeForeground, #ffffff) !important;
-    /* Changed to light text for blue tabs */
 }
 
-/* Force light text color on tab labels */
-/* Ensure tab label text itself is light */
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab .tab-label .monaco-icon-label>.label-name {
     color: var(--vscode-tab-activeForeground, #ffffff) !important;
-    /* Changed to light text */
 }
 
-/* General styling for individual tabs (background, borders) */
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab {
     border-radius: var(--border-radius);
     background-color: var(--vscode-tab-inactiveBackground, #171b26) !important;
-    /* Removed for integrated look */
-    /* background-color: #213343 !important; */
-    /* Changed to new main blue */
-    /* padding-right: none !important; */
-    border: 2px solid var(--vscode-sideBar-border, #343b4d) !important;
+    border: 2px solid var(--vscode-sideBar-border, rgb(0 0 0 / 21%)) !important;
     margin: 0 var(--tab-spacing) 0 var(--tab-spacing);
-    /* --tab-border-bottom-color: null !important;
-    --tab-border-top-color: null !important; */
-    /* border-right: none !important; */
-    /* border-radius: 0 !important; */
 }
-
-
 
 .tab-border-bottom-container,
 .tab-border-top-container {
     background: none !important;
 }
-
 
 div.repl-tree.monaco-mouse-cursor-text.word-wrap {
     overflow: hidden !important;
@@ -54,7 +35,6 @@ div.repl-tree.monaco-mouse-cursor-text.word-wrap {
 }
 
 .split-view-view>.monaco-grid-branch-node>.monaco-split-view2.vertical:has(#workbench\.parts\.editor) {
-    /* margin-left: var(--spacing); */
     width: calc(100% - var(--spacing)) !important;
 }
 
@@ -62,91 +42,58 @@ div.repl-tree.monaco-mouse-cursor-text.word-wrap {
     margin-left: var(--spacing);
 }
 
-
-
-/* Background color for the currently active tab */
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active {
     background-color: var(--vscode-list-hoverBackground, #343b4d) !important;
-    /* Use slightly different background for active */
-    border: 2px solid var(--vscode-tab-activeBorder, #6caddf) !important;
-    /* Use theme active border color */
-    /* Changed to new highlight blue */
+    border: 2px solid var(--vscode-tab-activeBorder, #ffffffc4) !important;
 }
 
-/* Top border highlight for the active tab */
 .monaco-workbench .part.editor>.content .editor-group-container> {
-    /* height: 0; */
-    /* Removed to allow border */
     border: 2px solid var(--vscode-editorGroup-border, #243443) !important;
-    /* Changed border to lighter blue */
 }
 
-/* --- Breadcrumbs Styling --- */
 .breadcrumbs-below-tabs {
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     overflow: hidden;
     padding: 9px 0;
-    /* background: #1c1c1c; */
 }
 
-/* Breadcrumb font size */
 .monaco-breadcrumbs {
     font-size: 0.7rem;
 }
 
-/* --- Editor Sticky Scroll & Scrollbars --- */
-/* Remove shadow from sticky scroll widget */
 .monaco-editor .sticky-widget {
     box-shadow: none;
 }
 
-/* Remove shadow from scrollbar decorations */
 .monaco-editor .scroll-decoration {
     box-shadow: none;
 }
 
-/* Border color for sticky scroll widget */
-/* .monaco-editor .sticky-widget {
-    border-color: #2b2d30;
-} */
-
-/* --- List & Tree Styling --- */
-/* Rounded corners for list containers (e.g., search results) */
 .results>.monaco-list>.monaco-scrollable-element,
 .results>.monaco-list>.monaco-scrollable-element>.monaco-list-rows {
     border-radius: 0 0 var(--border-radius) var(--border-radius) !important;
 }
 
-/* Rounded bottom corners for general list containers */
 .monaco-list>.monaco-scrollable-element {
     border-radius: 0 0 var(--border-radius) var(--border-radius);
 }
 
-
-/* --- Extensions View --- */
-/* Remove padding from message containers in extensions view */
 .extensions-viewlet>.extensions .message-container {
     padding: unset !important;
 }
 
-/* --- Editor Group Container --- */
-/* Rounded corners and overflow for editor groups */
 .editor-group-container,
 .monaco-workbench .part.editor>.content .editor-group-container {
     border-radius: var(--border-radius);
     overflow: hidden;
     height: calc(100% - var(--spacing)) !important;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    /* margin: 0 var(--spacing) 0 0 !important; */
 }
 
-
-/* Background color for vertical split view separators */
 .monaco-split-view2.separator-border.vertical>.monaco-scrollable-element>.split-view-container>.split-view-view:not(:first-child):before {
     background: var(--vscode-panel-border, #252a38) !important;
 }
 
-/* Background color for horizontal split view separators */
 .monaco-split-view2.separator-border>.monaco-scrollable-element>.split-view-container>.split-view-view:not(:first-child):before {
     background: var(--vscode-panel-border, #252a38) !important;
 }
@@ -154,12 +101,6 @@ div.repl-tree.monaco-mouse-cursor-text.word-wrap {
 .welcome-view-content {
     background: var(--vscode-editor-background, #171b26) !important;
 }
-
-
-
-/* .monaco-pane-view {
-    width: 96% !important;
-} */
 
 div.monaco-scrollable-element>div.split-view-container>div>div>div.pane-body {
     background: var(--vscode-sideBar-background, #171b26) !important;
@@ -169,43 +110,31 @@ div.monaco-scrollable-element>div.split-view-container>div>div>div.pane-body {
     width: auto !important;
 }
 
-
 #workbench\.parts\.editor>.content {
     background-color: unset !important;
     width: calc(100% - var(--spacing)) !important;
 }
 
-/* .xterm-scrollable-element, .terminal-wrapper.active {
-    border-radius: 0.5rem !important;
-} */
-
 .monaco-workbench .part.panel.bottom .composite.title {
     border-top-style: none !important;
 }
 
-/* --- Title Bar --- */
-/* Styling for the command center input in the title bar */
 .monaco-workbench .part.titlebar>.titlebar-container>.titlebar-center>.window-title>.command-center .action-item.command-center-center {
     border-radius: 5rem;
     border: none;
 }
 
-/* Transition effect for title bar elements */
 .titlebar-center,
 .titlebar-right {
     transition: all 0.15s;
 }
 
-
-/* Hover effect for title bar elements */
 .titlebar-center:hover,
 .titlebar-right:hover {
     opacity: 1;
     pointer-events: all;
 }
 
-/* --- Action Bar / Icons --- */
-/* Styling for checked/hovered action items (icons) */
 li.action-item.icon.checked,
 li.action-item.icon:hover {
     opacity: 1;
@@ -213,43 +142,34 @@ li.action-item.icon:hover {
     background-color: var(--vscode-actionBar-toggledBackground, #404245);
 }
 
-/* --- Activity Bar --- */
-/* Center align items within the activity bar actions */
 .monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-item {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Ensure notification badges are above other elements */
 .monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .badge .badge-content {
     z-index: 99 !important;
 }
 
-/* Remove the default left border indicator for active activity bar items */
 .monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-item.checked .active-item-indicator:before {
     border-left: none !important;
 }
 
-/* Style activity bar icons (size, weight) */
 .monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-label.codicon {
     font-size: 20px !important;
     font-weight: bold;
 }
 
-/* Remove padding for non-icon activity bar labels (if any) */
 .monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-label:not(.codicon) {
     padding: unset !important;
 }
 
-/* Set fixed size for activity bar action labels/icons */
 .monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-label {
     width: 44px !important;
     height: 44px !important;
 }
 
-/* --- General List Rows --- */
-/* Rounded bottom corners and width adjustment for list rows */
 div.pane-body>div>div>div>div.monaco-list-rows {
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     width: 97% !important;
@@ -257,13 +177,6 @@ div.pane-body>div>div>div>div.monaco-list-rows {
     height: calc(100% - 1rem) !important;
 }
 
-
-/* .monaco-split-view2.horizontal>.monaco-scrollable-element>.split-view-container>.split-view-view {
-    height: calc(100% - 0.6rem) !important;
-} */
-
-/* --- General Action Items (Icons) --- */
-/* Default opacity and transition for action icons */
 li.action-item.icon {
     transition: all 0.15s;
     opacity: 0.2;
@@ -272,26 +185,19 @@ li.action-item.icon {
     margin-top: 0.2rem;
 }
 
-/* --- Pane Headers --- */
-/* Padding for pane headers (e.g., Explorer, Outline) */
 .monaco-pane-view .pane>.pane-header {
     padding: 0 6px;
 }
 
-/* --- Sidebar Title --- */
-/* Transparent background and padding removal for sidebar title area */
 .monaco-workbench .part.sidebar>.title {
     background: transparent;
     padding: var(--spacing) 0 0 0;
-    /* border-radius: 0.5rem 0.5rem 0 0; */
 }
 
 #quickInput_list>div>div.monaco-list-rows {
     width: calc(100% - 0.3rem) !important;
 }
 
-/* --- Sidebar Container --- */
-/* Margin, border-radius, and background for the main sidebar container */
 .monaco-workbench .part.sidebar {
     margin: 0 0 0 var(--spacing);
     border-radius: var(--border-radius);
@@ -301,8 +207,6 @@ li.action-item.icon {
     box-shadow: rgba(0, 0, 0, 0.16) 3px 3px 6px, rgba(0, 0, 0, 0.23) 3px 3px 6px;
 }
 
-/* --- Composite Part Indicators (e.g., Panel Titles) --- */
-/* Top border indicator for active/focused items in composite parts */
 .monaco-workbench .pane-composite-part>.header-or-footer>.composite-bar-container>.composite-bar>.monaco-action-bar .action-item.checked .active-item-indicator:before,
 .monaco-workbench .pane-composite-part>.header-or-footer>.composite-bar-container>.composite-bar>.monaco-action-bar .action-item:focus .active-item-indicator:before,
 .monaco-workbench .pane-composite-part>.title>.composite-bar-container>.composite-bar>.monaco-action-bar .action-item.checked .active-item-indicator:before,
@@ -310,12 +214,8 @@ li.action-item.icon {
     border-top-width: 1px;
 }
 
-/* --- Integrated Terminal --- */
-/* Background for the active terminal wrapper */
-
-
 .search-view .search-widgets-container {
-    margin: 0 calc (var(--border-radius) + 0.5rem) 0 var(--border-radius) !important;
+    margin: 0 calc(var(--border-radius) + 0.5rem) 0 var(--border-radius) !important;
 }
 
 div .search-view .search-widget .replace-input {
@@ -336,28 +236,14 @@ div .search-view .search-widget .replace-input {
     margin: 1px 2px 0 0 !important;
 }
 
-/* .search-view .search-widget .replace-container {
-    border: 3px solid #6b6b6b !important;
-    border-radius: 0.5rem !important;
-} */
-
 .search-view .search-widget .replace-container {
     width: 93.3% !important;
 }
-
 
 .monaco-findInput .monaco-inputbox {
     border-radius: var(--border-radius) !important;
 }
 
-/* Rounded corners for terminal split panes */
-/* .monaco-workbench .pane-body.integrated-terminal .terminal-split-pane {
-    border-radius: 0.5rem;
-    overflow: hidden;
-} */
-
-/* --- Quick Input / Command Palette --- */
-/* Main styling for the command palette widget */
 .quick-input-widget {
     transform: translateY(-50%) !important;
     top: 50% !important;
@@ -367,28 +253,20 @@ div .search-view .search-widget .replace-input {
     box-shadow: none !important;
     font-size: 24px !important;
     box-shadow: 0px 8px 20px var(--vscode-widget-shadow, #0000005c) !important;
-    /* box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.45) !important; */
 }
 
-/* Font size for list rows within the command palette */
 .quick-input-widget .monaco-list-rows {
     font-size: 13px !important;
 }
 
-/* Remove background for lists */
-/* Transparent background for command palette list rows */
 .quick-input-widget .monaco-list-rows {
     background: transparent !important;
 }
 
-/* List hover */
-/* Hover background for command palette list items */
 .quick-input-widget .monaco-list-row:hover {
     background: var(--vscode-list-hoverBackground, #343b4d) !important;
 }
 
-/* Command palette text input */
-/* Styling for the command palette's text input box */
 .quick-input-filter .monaco-inputbox {
     border-radius: 12px !important;
     padding: 12px !important;
@@ -398,12 +276,10 @@ div .search-view .search-widget .replace-input {
     margin-bottom: 16px !important;
 }
 
-/* Background blur effect when command palette is open */
 #command-blur {
     position: absolute !important;
     width: 100% !important;
     height: 100% !important;
-    /* background: #0000003b !important; */
     background: var(--vscode-editor-background, #171b26) !important;
     opacity: 80%;
     top: 0 !important;
@@ -411,10 +287,6 @@ div .search-view .search-widget .replace-input {
     -webkit-backdrop-filter: blur(20px) !important;
     backdrop-filter: blur(20px) !important;
     z-index: 99 !important;
-}
-
-.split-view-container>.split-view-view>.editor-group-container {
-    padding-right: var(--spacing);
 }
 
 .notification-toast,
@@ -430,34 +302,22 @@ div .search-view .search-widget .replace-input {
 }
 
 div.monaco-workbench>div:has(iframe.webview.ready) {
-    height: calc(100% - 21rem) !important;
+    height: calc(100% - 22.5rem) !important;
 }
 
-
-/* Command palette's input box placeholder. */
-/* Placeholder text color in the command palette input */
 .monaco-inputbox input::placeholder {
     color: var(--vscode-input-placeholderForeground, #cccccc80) !important;
 }
 
-/* --- Editor Tab Container --- */
-/* Margin and background for the container holding editor tabs */
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container {
     margin: var(--border-radius);
-    /* background-color: var(--vscode-editorGroupHeader-tabsBackground, #171b26) !important; */
-    /* background-color: #213343 !important;  */
-    /* Added main blue background */
 }
 
-/* --- Icon Labels --- */
-/* Styling for the description part of icon labels (e.g., file paths in tabs) */
 .monaco-icon-label:after {
     font-size: 70% !important;
     margin: 1px 16px 0 5px !important;
 }
 
-
-/* Positioning and rounded corners for the find widget itself */
 .monaco-editor .find-widget {
     top: 12px !important;
     border-radius: var(--border-radius) !important;
@@ -467,17 +327,13 @@ div.monaco-workbench>div:has(iframe.webview.ready) {
     padding: 4px 0px 4px 1px !important;
 }
 
-/* --- Auxiliary Bar (e.g., Right Sidebar) --- */
-/* Transparent background for the auxiliary bar title */
 .monaco-workbench .part.auxiliarybar>.title {
     background-color: unset !important;
 }
 
-
 .monaco-workbench .part.auxiliarybar {
     border: none !important;
     border-radius: var(--border-radius) !important;
-    /* margin-left: var(--spacing) !important; */
     margin-right: var(--spacing) !important;
     height: calc(100% - var(--spacing)) !important;
     box-shadow: rgba(0, 0, 0, 0.16) -3px 3px 6px, rgba(0, 0, 0, 0.23) -3px 3px 6px;
@@ -487,45 +343,19 @@ div.monaco-workbench>div:has(iframe.webview.ready) {
     background-color: var(--vscode-statusBar-background, #252a38) !important;
 }
 
-
-/* .part.panel.basepanel.bottom {
-    border: 2px solid red !important;
-}
-
-.terminal.xterm {
-    border: 2px solid blue !important;
-}
-
-.part.editor {
-    border: 2px solid green !important;
-} */
-
-
-/* #terminal {
-    border-radius: 0 0 0.5rem 0.5rem;
-    overflow: hidden;
-    height: calc(100% - 1rem) !important;
-} */
-
 .monaco-workbench .part.panel>.content {
     height: calc(100% - 2rem) !important;
 }
 
 .monaco-workbench .part.panel {
-    /* background: #1c1c1c !important; */
     margin: 0 var(--spacing) 0 0;
     height: calc(100% - calc(var(--spacing) + 0.1rem)) !important;
     border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    border: 2px solid var(--vscode-terminal-background, #171b26) !important;
+    border-right: 2px solid var(--vscode-terminal-background, #171b2600) !important;
 }
-
-/* .xterm-scrollable-element {
-    height: calc(100% - 6rem) !important;
-} */
-
 
 .terminal-group>.monaco-split-view2>.monaco-scrollable-element>.split-view-container>.split-view-view {
     background: var(--vscode-terminal-background, #171b26) !important;
