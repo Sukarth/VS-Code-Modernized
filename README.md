@@ -37,13 +37,13 @@ Or, disable the default behavior using the `vscode-modernized.autoApplyTheme` se
 2.  **Install the Extension:**
     - **From VS Code Marketplace (Recommended):** Search for "VS Code Modernized" and install directly from VS Code, or use this link. _(Link will be available once published)_
     - **From VSIX (Manual):** Download the `.vsix` file from the [Releases](https://github.com/sukarth/VS-Code-Modernized/releases) page. Open VS Code, go to the Extensions view (`Ctrl+Shift+X`), click the `...` menu, select "Install from VSIX...", and choose the downloaded file.
-    - **⚠️ Note:** If you uninstall this extension later, you MUST run the `VS Code Modernized: Remove Styles` command first. See the [important note](#⚠️-important-note) section for details.
+    - **⚠️ Note:** If you uninstall this extension later, you MUST run the `VS Code Modernized: Remove Styles` command first. See the [important note](#important-note) section for details.
 3.  **Apply Styles:**
     - Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`).
     - Use the command: `VS Code Modernized: Apply Styles` (type to search if necessary).
     - If prompted, grant administrative privileges.
     - VS Code might ask to reload; if not, restart VS Code or manually reload the window (`Ctrl + R`).
-    - Dismiss the "corrupt installation" warning if it appears (see [important note](#⚠️-important-note) section below).
+    - Dismiss the "corrupt installation" warning if it appears (see [important note](#important-note) section below).
     - By default, the extension will also switch your color theme to 'Deep Blue Modern' for the optimal visual experience. You can disable this behavior in the settings (see [configuration](#configuration)).
 
 ## Usage
