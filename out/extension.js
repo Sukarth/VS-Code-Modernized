@@ -456,29 +456,8 @@ async function activate(context) {
  * Called when the extension is deactivated (e.g., on VS Code shutdown).
  * Used for cleanup tasks if necessary.
  */
-async function deactivate() {
+function deactivate() {
     console.log(`${EXTENSION_ID} deactivated.`);
-    // Check if styles are currently applied
-    const stylesApplied = extensionContext.globalState.get(APPLIED_STATE_KEY, false);
-    if (stylesApplied) {
-        console.log(`Styles are applied. Removing them during deactivation...`);
-        try {
-            // Call the removeStyles function to clean up
-            await removeStyles();
-            console.log(`Successfully removed styles during deactivation.`);
-        }
-        catch (error) {
-            console.error(`Failed to remove styles during deactivation: ${error.message}`);
-        }
-    }
-    else {
-        console.log(`No styles applied. No cleanup needed during deactivation.`);
-    }
-    // Clear any pending theme changes
-    if (extensionContext) {
-        await extensionContext.globalState.update('pendingThemeChange', undefined);
-        await extensionContext.globalState.update('pendingThemeRevert', undefined);
-        await extensionContext.globalState.update(PREVIOUS_THEME_KEY, undefined);
-    }
+    // No specific cleanup needed currently
 }
 //# sourceMappingURL=extension.js.map

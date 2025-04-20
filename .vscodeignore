@@ -1,3 +1,4 @@
+.env
 .vscode/**
 .vscode-test/**
 node_modules/**
@@ -8,6 +9,8 @@ tsconfig.json
 yarn.lock
 webpack.config.js
 .gitignore
+scripts/**
+assets/**
 
 !out/extension.js
 !out/extension.js.map

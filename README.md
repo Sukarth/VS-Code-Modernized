@@ -18,10 +18,10 @@ VS Code Modernized applies a sleek, custom UI redesign, going beyond standard th
 ## Preview
 
 Either let the extension do the work for you and set the Deep Blue Modern color theme automatically...
-![Screenshot 1](https://raw.githubusercontent.com/sukarth/VS-Code-Modernized/main/screenshots/vscodeModernizedThemeSwitchDemo.gif)
+![Screenshot 1](https://raw.githubusercontent.com/sukarth/VS-Code-Modernized/main/assets/vscodeModernizedThemeSwitchDemo.gif)
 
 Or, disable the default behavior using the `vscode-modernized.autoApplyTheme` setting (see [configuration](#configuration)), so that the extension uses the theme of your choice.
-![Screenshot 2](https://raw.githubusercontent.com/sukarth/VS-Code-Modernized/main/screenshots/vscodeModernizedNoThemeSwitchDemo.gif)
+![Screenshot 2](https://raw.githubusercontent.com/sukarth/VS-Code-Modernized/main/assets/vscodeModernizedNoThemeSwitchDemo.gif)
 
 <!-- *(Consider adding a carousel or more detailed images showing the UI changes)* -->
 

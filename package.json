@@ -15,6 +15,7 @@
     "type": "git",
     "url": "https://github.com/sukarth/VS-Code-Modernized.git"
   },
+  "icon": "https://raw.githubusercontent.com/sukarth/VS-Code-Modernized/main/assets/icon.png",
   "activationEvents": [
     "onStartupFinished"
   ],
@@ -83,6 +84,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vscode/vsce": "^3.3.2",
+    "archiver": "^7.0.1",
     "dotenv": "^16.5.0",
     "eslint": "^8.40.0",
     "inquirer": "^8.2.5",

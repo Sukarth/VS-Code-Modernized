@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
-const fs = require("fs").promises;
+const fs = require("fs");
+const fsPromises = require("fs").promises;
 const path = require("path");
 const { execSync, exec } = require("child_process");
 require("dotenv").config(); // Load environment variables from .env file
@@ -18,6 +19,68 @@ let tarGzPath;
 // --- Helper Functions ---
 
 /**
+ * Creates source code archives without using git commands
+ * @param {string} packageName - The package name
+ * @param {string} version - The version being released
+ * @param {string} zipPath - Path to save the ZIP archive
+ * @param {string} tarGzPath - Path to save the TAR.GZ archive
+ */
+async function createSourceArchivesFallback(packageName, version, zipPath, tarGzPath) {
+  try {
+    const archiver = require('archiver');
+    
+    // Create a list of files to exclude
+    const excludePatterns = [
+      'node_modules/**',
+      'dist/**',
+      '.git/**',
+      'out/**'
+    ];
+    
+    // Create ZIP archive
+    console.log(`Creating ZIP archive at ${zipPath}...`);
+    const zipOutput = fs.createWriteStream(zipPath);
+    const zipArchive = archiver('zip', { zlib: { level: 9 } });
+    
+    zipArchive.pipe(zipOutput);
+    zipArchive.glob('**/*', {
+      cwd: ROOT_DIR,
+      ignore: excludePatterns,
+      dot: true
+    });
+    
+    await new Promise((resolve, reject) => {
+      zipOutput.on('close', resolve);
+      zipArchive.on('error', reject);
+      zipArchive.finalize();
+    });
+    
+    // Create TAR.GZ archive
+    console.log(`Creating TAR.GZ archive at ${tarGzPath}...`);
+    const tarOutput = fs.createWriteStream(tarGzPath);
+    const tarArchive = archiver('tar', { gzip: true });
+    
+    tarArchive.pipe(tarOutput);
+    tarArchive.glob('**/*', {
+      cwd: ROOT_DIR,
+      ignore: excludePatterns,
+      dot: true
+    });
+    
+    await new Promise((resolve, reject) => {
+      tarOutput.on('close', resolve);
+      tarArchive.on('error', reject);
+      tarArchive.finalize();
+    });
+    
+    console.log('Source archives created successfully using fallback method.');
+  } catch (error) {
+    console.error(`Error creating source archives with fallback method: ${error.message}`);
+    throw error;
+  }
+}
+
+/**
  * Packages the extension as .vsix and creates source code archives
  * @param {string} version - The version being released
  * @returns {Promise<{vsixPath: string, zipPath: string, tarGzPath: string}>} - Paths to created assets
@@ -25,10 +88,10 @@ let tarGzPath;
 async function packageExtension(version) {
   try {
     // Ensure dist directory exists
-    await fs.mkdir(DIST_DIR, { recursive: true });
+    await fsPromises.mkdir(DIST_DIR, { recursive: true });
 
     // Get package name from package.json
-    const packageJsonContent = await fs.readFile(PACKAGE_JSON_PATH, "utf-8");
+    const packageJsonContent = await fsPromises.readFile(PACKAGE_JSON_PATH, "utf-8");
     const packageData = JSON.parse(packageJsonContent);
     const packageName = packageData.name;
 
@@ -43,7 +106,7 @@ async function packageExtension(version) {
     // Check if the vsix was created successfully
     if (!fs.existsSync(vsixPath)) {
       // Try to find the actual vsix file that was created
-      const files = await fs.readdir(DIST_DIR);
+      const files = await fsPromises.readdir(DIST_DIR);
       const vsixFiles = files.filter((file) => file.endsWith(".vsix"));
       if (vsixFiles.length > 0) {
         vsixPath = path.join(DIST_DIR, vsixFiles[0]);
@@ -57,18 +120,33 @@ async function packageExtension(version) {
     // Create zip archive
     const zipFileName = `${packageName}-${version}-source.zip`;
     zipPath = path.join(DIST_DIR, zipFileName);
-    execSync(`git archive --format=zip --output=${zipPath} HEAD`, {
-      cwd: ROOT_DIR,
-      stdio: "inherit",
-    });
-
+    
     // Create tar.gz archive
     const tarGzFileName = `${packageName}-${version}-source.tar.gz`;
     tarGzPath = path.join(DIST_DIR, tarGzFileName);
-    execSync(`git archive --format=tar.gz --output=${tarGzPath} HEAD`, {
-      cwd: ROOT_DIR,
-      stdio: "inherit",
-    });
+    
+    try {
+      // Check if git is properly initialized and HEAD exists
+      execSync('git rev-parse --verify HEAD', { cwd: ROOT_DIR, stdio: 'pipe' });
+      
+      // Create archives using git
+      console.log("Using git archive to create source code archives...");
+      execSync(`git archive --format=zip --output=${zipPath} HEAD`, {
+        cwd: ROOT_DIR,
+        stdio: "inherit",
+      });
+      
+      execSync(`git archive --format=tar.gz --output=${tarGzPath} HEAD`, {
+        cwd: ROOT_DIR,
+        stdio: "inherit",
+      });
+    } catch (gitError) {
+      console.warn(`⚠️ Could not use git archive: ${gitError.message}`);
+      console.log("Using fallback method to create source code archives...");
+      
+      // Fallback: Create archives using file system operations
+      await createSourceArchivesFallback(packageName, version, zipPath, tarGzPath);
+    }
 
     console.log("✅ Successfully created all release assets:");
     console.log(`   - VSIX: ${vsixPath}`);
@@ -88,7 +166,7 @@ async function packageExtension(version) {
  */
 async function getReleaseNotes(version) {
   try {
-    const changelogContent = await fs.readFile(CHANGELOG_PATH, "utf-8");
+    const changelogContent = await fsPromises.readFile(CHANGELOG_PATH, "utf-8");
     const versionHeader = `## [${version}]`;
     const startIndex = changelogContent.indexOf(versionHeader);
 
@@ -144,7 +222,7 @@ async function getRepoDetails() {
 
   // Fallback to package.json if git remote fails
   try {
-    const packageJsonContent = await fs.readFile(PACKAGE_JSON_PATH, "utf-8");
+    const packageJsonContent = await fsPromises.readFile(PACKAGE_JSON_PATH, "utf-8");
     const packageData = JSON.parse(packageJsonContent);
     if (
       packageData.repository &&
@@ -192,7 +270,7 @@ async function createGitHubRelease(tagName, releaseTitle, releaseNotes, isPrerel
     
     // Write release notes to a temporary file
     const tempNotesPath = path.join(DIST_DIR, 'release-notes.txt');
-    await fs.writeFile(tempNotesPath, releaseNotes);
+    await fsPromises.writeFile(tempNotesPath, releaseNotes);
     
     // Create an annotated tag with the release notes as the message
     execSync(`git tag -a ${tagName} -F "${tempNotesPath}"`, {
@@ -208,7 +286,7 @@ async function createGitHubRelease(tagName, releaseTitle, releaseNotes, isPrerel
     });
     
     // Clean up temporary file
-    await fs.unlink(tempNotesPath);
+    await fsPromises.unlink(tempNotesPath);
     
     console.log(`✅ Successfully created and pushed tag: ${tagName}`);
     console.log(`\nRelease URL: https://github.com/${owner}/${repo}/releases/tag/${tagName}`);
