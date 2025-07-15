@@ -174,7 +174,7 @@ div.pane-body>div>div>div>div.monaco-list-rows {
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     width: 97% !important;
     padding-bottom: 0.5rem;
-    height: calc(100% - 1rem) !important;
+    /* height: calc(100% - 1rem) !important; */ /* Causes issues with scrollable lists */
 }
 
 li.action-item.icon {
