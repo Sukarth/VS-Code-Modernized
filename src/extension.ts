@@ -1,8 +1,14 @@
 import * as vscode from 'vscode';
 import * as sudo from '@vscode/sudo-prompt';
+import fs from 'fs/promises';
 
 /** Unique identifier for the extension. */
 const EXTENSION_ID = 'vscode-modernized';
+
+/** VS Code Output Channel for logging extension messages. */
+const LOGGER = vscode.window.createOutputChannel(`${EXTENSION_ID}`, { log: true });
+LOGGER.info(`Logger Initialized @ ${LOGGER.logLevel} level...`);
+
 /** Start marker for injected content in workbench.html. */
 const INJECTION_MARKER_START = `<!-- ${EXTENSION_ID}-start -->`;
 /** End marker for injected content in workbench.html. */
@@ -28,22 +34,40 @@ let extensionContext: vscode.ExtensionContext;
  */
 async function findWorkbenchPath(): Promise<vscode.Uri | undefined> {
     const vscodeRoot = vscode.Uri.file(vscode.env.appRoot);
+    // Editor root is typically located in the following directories:
+    // Windows: %AppData%/Local/Programs/{Editor Name}/resources/app/out/vs/code/...
+    // Linux: ...
+    // Mac: ...
+    LOGGER.debug(`Editor Root Directory Identified: ${vscodeRoot.fsPath}`);
     const possiblePaths = [
         'out/vs/code/electron-sandbox/workbench/workbench.html',
         'out/vs/code/electron-sandbox/workbench/workbench.esm.html', // Another possible path
+        'out/vs/code/electron-browser/workbench/workbench.html' // Possible Path for Vscode Insiders
     ];
 
     for (const p of possiblePaths) {
         const uri = vscode.Uri.joinPath(vscodeRoot, p);
         try {
             await vscode.workspace.fs.stat(uri); // Check if the file exists
-            console.log(`Found workbench.html at: ${uri.fsPath}`);
+            LOGGER.info(`Found workbench.html at: ${uri.fsPath}`);
             return uri;
         } catch {
             // File not found at this path, continue searching
+            LOGGER.warn(`Could not find workbench.html at: ${uri.fsPath}`);
         }
     }
-    console.error('Could not find workbench.html path.');
+
+    try {
+        const debugReport = await generateDebugReport(vscodeRoot, possiblePaths);
+        LOGGER.error(`Failed to locate workbench.html\n\nPlease include this information when reporting an issue:\n${debugReport}`);
+    } catch (e: any) {
+        LOGGER.error(`Failed to locate workbench.html:
+OS: ${process.platform} (${process.arch})
+Editor Version: ${vscode.version}
+Root Path: ${vscodeRoot.fsPath}
+Error: ${e?.message || e}
+`);
+    }
     return undefined;
 }
 
@@ -68,10 +92,10 @@ async function writeFileWithPermissions(targetUri: vscode.Uri, content: string):
     try {
         // Attempt direct write first
         await vscode.workspace.fs.writeFile(targetUri, Buffer.from(content, 'utf8'));
-        console.log(`Successfully wrote to ${targetUri.fsPath}`);
+        LOGGER.info(`Successfully wrote to ${targetUri.fsPath}`);
         return true;
     } catch (error: any) {
-        console.warn(`Direct write failed (likely permissions): ${error.message}`);
+        LOGGER.warn(`Direct write failed (likely permissions): ${error.message}`);
 
         // Fallback to using sudo-prompt
         const tempDirUri = extensionContext.globalStorageUri; // Use extension's global storage for temp file
@@ -81,19 +105,19 @@ async function writeFileWithPermissions(targetUri: vscode.Uri, content: string):
         try {
             // Write content to a temporary file
             await vscode.workspace.fs.writeFile(tempFileUri, Buffer.from(content, 'utf8'));
-            console.log(`Wrote temporary file to ${tempFileUri.fsPath}`);
+            LOGGER.info(`Wrote temporary file to ${tempFileUri.fsPath}`);
 
             // Determine the correct move command based on the OS
             const moveCommand = process.platform === 'win32' ? 'move' : 'mv';
             // Construct the command to move the temp file to the target location
             const command = `${moveCommand} "${tempFileUri.fsPath}" "${targetUri.fsPath}"`;
-            console.log(`Executing sudo command: ${command}`);
+            LOGGER.info(`Executing sudo command: ${command}`);
 
             // Execute the move command with elevated privileges using sudo-prompt
             return await new Promise<boolean>((resolve) => {
                 sudo.exec(command, { name: 'VS Code Modernized Extension' }, async (sudoError?: Error | string) => {
                     if (sudoError) {
-                        console.error(`Sudo command failed: ${sudoError}`);
+                        LOGGER.error(`Sudo command failed: ${sudoError}`);
                         // Attempt to clean up the temporary file even if sudo failed
                         try {
                             await vscode.workspace.fs.delete(tempFileUri);
@@ -120,7 +144,7 @@ async function writeFileWithPermissions(targetUri: vscode.Uri, content: string):
                 });
             });
         } catch (tempWriteError: any) {
-            console.error(`Failed to write temporary file: ${tempWriteError.message}`);
+            LOGGER.error(`Failed to write temporary file: ${tempWriteError.message}`);
             vscode.window.showErrorMessage(`Failed to write temporary file: ${tempWriteError.message}`);
             return false; // Indicate failure
         }
@@ -228,7 +252,7 @@ ${INJECTION_MARKER_END}
         // Inject the new content just before the closing </html> tag
         htmlContent = htmlContent.replace(/\n*?<\/html>/, `\n${injectionContent}\n</html>`);
 
-        // --- Theme Handling --- 
+        // --- Theme Handling ---
         const config = vscode.workspace.getConfiguration(CONFIG_SECTION);
         const autoApplyTheme = config.get<boolean>('autoApplyTheme', true);
         const currentTheme = vscode.workspace.getConfiguration('workbench').get<string>('colorTheme');
@@ -355,6 +379,109 @@ async function removeStyles() {
     }
 }
 
+// -- Utility Functions --
+
+/**
+ * Aggregates Debug Information for the current environment.
+ * @param {vscode.Uri} vscodeRoot The root URI of the VS Code installation.
+ * @param {string[]} possiblePaths Array of possible paths where workbench.html might be located
+ * @returns {Promise<string>} A formatted string containing device, filesystem, and installation details.
+ */
+async function generateDebugReport(vscodeRoot: vscode.Uri, possiblePaths: string[]): Promise<string> {
+    let fileStructure = [];
+    let readAccess = "Unknown";
+    let writeAccess = "Unknown";
+
+    // Check each directory level and aggregate contents
+    const outDir = vscode.Uri.joinPath(vscodeRoot, 'out');
+    const vsDir = vscode.Uri.joinPath(outDir, 'vs');
+    const codeDir = vscode.Uri.joinPath(vsDir, 'code');
+
+    // -- Analysis of File System Permissions --
+    try {
+        const stats = await fs.stat(vscodeRoot.fsPath);
+        const mode = stats.mode;
+        readAccess = !!(mode & 0o444) ? "True" : "False";
+        writeAccess = !!(mode & 0o222) ? "True" : "False";
+    } catch (e) {
+        readAccess = "Unknown";
+        writeAccess = "Unknown";
+    }
+    // -- End Analysis of File System Permissions --
+
+    // -- Validate Target Paths --
+    // Identify target paths of the root directory & subdirectories
+    // Note: Can be helpful to easily identify missing directories, or unexpected workbench.html locations
+    try {
+        // Read '{AppRoot}/out/' directory
+        const outFiles = await vscode.workspace.fs.readDirectory(outDir);
+        let vsFound = false;
+
+        // Validate out/vs/ directory exists
+        vsFound = outFiles.some(([name]) => name === 'vs');
+
+        if (!vsFound) {
+            // Report all contents of out/ if vs/ not found
+            fileStructure.push('out/',
+                ...outFiles.map(([name, type]) =>
+                    `    ${name}${type === vscode.FileType.Directory ? '/' : ''}`));
+        } else {
+            // Report `vs/` directory found
+            fileStructure.push('out/', '    vs/ directory present');
+
+            try {
+                // Read 'out/vs/' directory
+                const vsFiles = await vscode.workspace.fs.readDirectory(vsDir);
+                let codeFound = false;
+
+                // Validate `vs/code/` directory exists
+                codeFound = vsFiles.some(([name]) => name === 'code');
+
+                if (!codeFound) {
+                    // Report all `vs/` contents if code/ not found
+                    fileStructure.push('vs/',
+                        ...vsFiles.map(([name, type]) =>
+                            `    ${name}${type === vscode.FileType.Directory ? '/' : ''}`));
+                } else {
+                    fileStructure.push('vs/', '    code/ directory present');
+
+                    // Always report `vs/code`/ contents
+                    // Note: We report all directories in the code/ dir in case the electron directory containing workbench.html is different
+                    // example: vscode targets `code/electron-sandbox/` and  Vscode Insiders target `code/electron-browser/`
+                    try {
+                        const codeFiles = await vscode.workspace.fs.readDirectory(codeDir);
+                        fileStructure.push('code/',
+                            ...codeFiles.map(([name, type]) =>
+                                `    ${name}${type === vscode.FileType.Directory ? '/' : ''}`));
+                    } catch { }
+                }
+            } catch { }
+        }
+    } catch { }
+    // -- End Validation of target paths --
+
+    // Construct the Complete Debug Report
+    return `SYSTEM INFORMATION
+    OS: ${process.platform} (${process.arch})
+    Shell: ${process.env.SHELL || process.env.COMSPEC}
+    Editor Version: ${vscode.version}
+    Editor Name: ${vscode.env.appName}
+    Environment: ${vscode.env.appHost}
+    Remote: ${vscode.env.remoteName || 'none'}
+
+INSTALLATION DETAILS
+    Root Path: ${vscodeRoot.fsPath}
+    AppRoot Directory Permissions:
+        Read: ${readAccess}
+        Write: ${writeAccess}
+
+    Searched Paths:
+${possiblePaths.map(p => `        ${p}`).join('\n')}
+
+Root Directory Result
+${fileStructure.map(line => `    ${line}`).join('\n')}`;
+}
+
 /**
  * VS Code Extension activation function.
  * Called when the extension is first activated (e.g., on startup or command execution).
@@ -381,7 +508,7 @@ export async function activate(context: vscode.ExtensionContext) {
     }
     // --- End Pending Theme Application ---
 
-    console.log(`Activating ${EXTENSION_ID}...`);
+    LOGGER.info(`Activating ${EXTENSION_ID}...`);
     extensionContext = context; // Store context for use in other functions
 
     // --- Find Workbench Path ---
@@ -393,6 +520,12 @@ export async function activate(context: vscode.ExtensionContext) {
         // Continue activation, but commands will show error if path is missing
     }
     // --- End Find Workbench Path ---
+
+    // --- Register Output Channel ---
+    context.subscriptions.push(
+        LOGGER
+    );
+    // --- End Register Output Channel ---
 
     // --- Register Commands ---
     context.subscriptions.push(

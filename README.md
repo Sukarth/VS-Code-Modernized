@@ -55,7 +55,7 @@ Use the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) to access the followin
 | Command                          | Title                             | Description                                                                                              |
 | :------------------------------- | :-------------------------------- | :------------------------------------------------------------------------------------------------------- |
 | `vscode-modernized.applyStyles`  | VS Code Modernized: Apply Styles  | Applies the custom styles to VS Code.                                                                    |
-| `vscode-modernized.removeStyles` | VS Code Modernized: Remove Styles | Removes the custom styles from VS Code, reverting to default. (Does not automatically revert the theme). | 
+| `vscode-modernized.removeStyles` | VS Code Modernized: Remove Styles | Removes the custom styles from VS Code, reverting to default. (Does not automatically revert the theme). |
 
 ### Reverting Changes
 
@@ -101,6 +101,8 @@ This extension modifies VS Code's files (mainly `workbench.html`) to apply/injec
 
 ## Troubleshooting / FAQ
 
+- **Q: How can I view the extension logs?**
+  - A: The extension exposes a logger in the output channel. Review and Share the output of the log file when reporting issues/asking for support.
 - **Q: VS Code says my installation is corrupt!**
   - A: This is expected. See the **Important Note** section above. You can safely ignore it.
 - **Q: Styles didn't apply after running the command.**
@@ -120,6 +122,7 @@ Contributions, feedback, and bug reports are welcome! Please feel free to open a
   - Your Operating System.
   - Steps to reproduce the issue.
   - Relevant error messages or screenshots.
+  - The logfile of the extensions output channel.
 - For feature requests, describe the desired functionality and its use case.
 
 ### Development
