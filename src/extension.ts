@@ -31,6 +31,7 @@ async function findWorkbenchPath(): Promise<vscode.Uri | undefined> {
     const possiblePaths = [
         'out/vs/code/electron-sandbox/workbench/workbench.html',
         'out/vs/code/electron-sandbox/workbench/workbench.esm.html', // Another possible path
+        'out/vs/code/electron-browser/workbench.html' // Possible Path for Vscode Insiders
     ];
 
     for (const p of possiblePaths) {
@@ -228,7 +229,7 @@ ${INJECTION_MARKER_END}
         // Inject the new content just before the closing </html> tag
         htmlContent = htmlContent.replace(/\n*?<\/html>/, `\n${injectionContent}\n</html>`);
 
-        // --- Theme Handling --- 
+        // --- Theme Handling ---
         const config = vscode.workspace.getConfiguration(CONFIG_SECTION);
         const autoApplyTheme = config.get<boolean>('autoApplyTheme', true);
         const currentTheme = vscode.workspace.getConfiguration('workbench').get<string>('colorTheme');
