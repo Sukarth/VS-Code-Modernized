@@ -28,13 +28,17 @@ let extensionContext: vscode.ExtensionContext;
  */
 async function findWorkbenchPath(): Promise<vscode.Uri | undefined> {
     const vscodeRoot = vscode.Uri.file(vscode.env.appRoot);
+    console.log(`Searching for workbench.html in: ${vscodeRoot.fsPath}`);
     const possiblePaths = [
         'out/vs/code/electron-sandbox/workbench/workbench.html',
         'out/vs/code/electron-sandbox/workbench/workbench.esm.html', // Another possible path
+        'out/vs/code/electron-browser/workbench/workbench.html', // Possible macOS path
+        'out/vs/code/electron-browser/workbench/workbench.esm.html', // Another possible macOS path
     ];
 
     for (const p of possiblePaths) {
         const uri = vscode.Uri.joinPath(vscodeRoot, p);
+        console.log(`Checking for workbench.html at: ${uri.fsPath}`);
         try {
             await vscode.workspace.fs.stat(uri); // Check if the file exists
             console.log(`Found workbench.html at: ${uri.fsPath}`);
@@ -175,6 +179,11 @@ function promptReload(message: string) {
                 vscode.commands.executeCommand('workbench.action.reloadWindow');
             }
         });
+}
+
+function printDebugInfo() {
+    console.log(`Workbench HTML Path: ${workbenchHtmlPath ? workbenchHtmlPath.fsPath : 'Not found'}`);
+    console.log(`ENV App Root: ${vscode.env.appRoot}`);
 }
 
 /**
@@ -390,6 +399,7 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.window.showWarningMessage(
             `Could not locate VS Code's workbench.html file. Style injection commands will not work.`
         );
+        vscode.window.showInformationMessage(vscode.env.appRoot);
         // Continue activation, but commands will show error if path is missing
     }
     // --- End Find Workbench Path ---
