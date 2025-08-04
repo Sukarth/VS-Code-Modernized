@@ -178,11 +178,6 @@ function promptReload(message: string) {
         });
 }
 
-function printDebugInfo() {
-    console.log(`Workbench HTML Path: ${workbenchHtmlPath ? workbenchHtmlPath.fsPath : 'Not found'}`);
-    console.log(`ENV App Root: ${vscode.env.appRoot}`);
-}
-
 /**
  * Applies the custom styles and scripts to the workbench.html file.
  * Reads existing content, injects CSS/JS links, handles theme switching, and writes back using appropriate permissions.
@@ -396,7 +391,6 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.window.showWarningMessage(
             `Could not locate VS Code's workbench.html file. Style injection commands will not work.`
         );
-        vscode.window.showInformationMessage(vscode.env.appRoot);
         // Continue activation, but commands will show error if path is missing
     }
     // --- End Find Workbench Path ---
