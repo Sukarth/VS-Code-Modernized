@@ -31,13 +31,14 @@ async function findWorkbenchPath(): Promise<vscode.Uri | undefined> {
     const possiblePaths = [
         'out/vs/code/electron-sandbox/workbench/workbench.html',
         'out/vs/code/electron-sandbox/workbench/workbench.esm.html', // Another possible path
+        'out/vs/code/electron-browser/workbench/workbench.html', // Possible MacOS path
+        'out/vs/code/electron-browser/workbench/workbench.esm.html', // Another possible MacOS path
     ];
 
     for (const p of possiblePaths) {
         const uri = vscode.Uri.joinPath(vscodeRoot, p);
         try {
             await vscode.workspace.fs.stat(uri); // Check if the file exists
-            console.log(`Found workbench.html at: ${uri.fsPath}`);
             return uri;
         } catch {
             // File not found at this path, continue searching
