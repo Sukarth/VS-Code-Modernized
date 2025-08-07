@@ -14,3 +14,6 @@ Thumbs.db
 .env
 .env*.local
 .qodo
+.vscode/
+build/
+out/

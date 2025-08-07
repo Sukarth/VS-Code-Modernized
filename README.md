@@ -1,6 +1,6 @@
 # VS Code Modernized ✨
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://marketplace.visualstudio.com/items?itemName=sukarth.vscode-modernized)
+[![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://marketplace.visualstudio.com/items?itemName=sukarth.vscode-modernized)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/sukarth/VS-Code-Modernized)
 
@@ -24,8 +24,6 @@ Either let the extension do the work for you and set the Deep Blue Modern color 
 Or, disable the default behavior using the `vscode-modernized.autoApplyTheme` setting (see [configuration](#configuration)), so that the extension uses the theme of your choice.
 
 ![Screenshot 2](https://raw.githubusercontent.com/sukarth/VS-Code-Modernized/main/assets/vscodeModernizedNoThemeSwitchDemo.gif)
-
-<!-- *(Consider adding a carousel or more detailed images showing the UI changes)* -->
 
 ## Installation
 

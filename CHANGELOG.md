@@ -4,6 +4,23 @@ All notable changes to the VS Code Modernized extension will be documented in th
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.1] - 2025-08-07
+
+### Added
+
+- Added additional paths to `workbench.html` for different versions of VS Code, allowing the extension to now support VS Code Insiders. [#2](https://github.com/Sukarth/VS-Code-Modernized/issues/2)
+
+### Changed
+
+- Minor bug fixes and code and style improvements in `src/extension.ts`, `styles/quickInputWidget.js`, and `styles/styles.css` for better UI consistency and performance.
+- Improved `.gitignore` to exclude `.vscode/`, `build/`, and `out/` folders.
+
+### Fixed
+
+- Fixed a bug where the extension was unable to find the "workbench.html" file ([#7](https://github.com/Sukarth/VS-Code-Modernized/issues/7))
+- Fixed a bug where editor tabs would render underneath the title bar in certain occasions. [#6](https://github.com/Sukarth/VS-Code-Modernized/issues/6)
+- Fixed bug where the extensions list would not render completely, and was cut off. [#4](https://github.com/Sukarth/VS-Code-Modernized/issues/4)
+
 ## [Released]
 
 ## [v1.0.0] - 2025-04-20
@@ -30,3 +47,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 [Released]: https://github.com/Sukarth/VS-Code-Modernized/releases/
 [v1.0.0]: https://github.com/Sukarth/VS-Code-Modernized/releases/tag/v1.0.0
+[v1.0.1]: https://github.com/Sukarth/VS-Code-Modernized/releases/tag/v1.0.1

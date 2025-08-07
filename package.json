@@ -2,7 +2,7 @@
   "name": "vscode-modernized",
   "displayName": "VS Code Modernized",
   "description": "A modern UI redesign for VS Code that brings customizable spacing, rounded corners, and a refined dark theme.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "sukarth",
   "engines": {
     "vscode": "^1.75.0"
@@ -87,7 +87,7 @@
     "archiver": "^7.0.1",
     "dotenv": "^16.5.0",
     "eslint": "^8.40.0",
-    "inquirer": "^8.2.5",
+    "inquirer": "^9.3.7",
     "typescript": "^5.0.0"
   },
   "dependencies": {

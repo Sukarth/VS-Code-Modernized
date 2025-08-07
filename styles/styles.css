@@ -54,7 +54,7 @@ div.repl-tree.monaco-mouse-cursor-text.word-wrap {
 .breadcrumbs-below-tabs {
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     overflow: hidden;
-    padding: 9px 0;
+    padding: 5px 0 0 0;
 }
 
 .monaco-breadcrumbs {
@@ -174,7 +174,7 @@ div.pane-body>div>div>div>div.monaco-list-rows {
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     width: 97% !important;
     padding-bottom: 0.5rem;
-    height: calc(100% - 1rem) !important;
+    /* height: calc(100% - 1rem) !important; */
 }
 
 li.action-item.icon {
@@ -310,7 +310,7 @@ div.monaco-workbench>div:has(iframe.webview.ready) {
 }
 
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container {
-    margin: var(--border-radius);
+    margin: var(--border-radius) var(--border-radius) 0 var(--border-radius);
 }
 
 .monaco-icon-label:after {
