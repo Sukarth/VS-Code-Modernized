@@ -17,3 +17,4 @@ Thumbs.db
 .vscode/
 build/
 out/
+dist/

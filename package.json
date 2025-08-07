@@ -75,7 +75,8 @@
     "release": "node scripts/create-release.js",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "lint": "eslint src --ext ts"
+    "lint": "eslint src --ext ts",
+    "build": "npx vsce package -o dist/"
   },
   "devDependencies": {
     "@octokit/rest": "^21.1.1",
