@@ -4,20 +4,6 @@ All notable changes to the VS Code Modernized extension will be documented in th
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.1.0] - 2025-08-31
-
-### Added
-
-- **Jupyter Notebook Support** - Added comprehensive modern styling for Jupyter notebooks in VS Code. [#1](https://github.com/Sukarth/VS-Code-Modernized/issues/1)
-  - Rounded corners for notebook cells using the extension's border-radius variable
-  - Enhanced cell toolbars with consistent styling and hover effects
-  - Improved visual separation between cell inputs and outputs
-  - Modern styling for markdown cells with proper backgrounds
-  - Focus and hover effects for better interaction feedback
-  - Consistent spacing between cells using the extension's spacing variables
-  - Styled run buttons and cell controls with smooth transitions
-- Updated README.md to document new Jupyter notebook support features
-
 ## [v1.0.1] - 2025-08-07
 
 ### Added
@@ -62,4 +48,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [Released]: https://github.com/Sukarth/VS-Code-Modernized/releases/
 [v1.0.0]: https://github.com/Sukarth/VS-Code-Modernized/releases/tag/v1.0.0
 [v1.0.1]: https://github.com/Sukarth/VS-Code-Modernized/releases/tag/v1.0.1
-[v1.1.0]: https://github.com/Sukarth/VS-Code-Modernized/releases/tag/v1.1.0

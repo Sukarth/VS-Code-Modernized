@@ -12,7 +12,6 @@ VS Code Modernized applies a sleek, custom UI redesign, going beyond standard th
 - Applies a custom, modern UI theme with rounded corners, shadows, etc.
 - Includes the 'Deep Blue Modern' theme, which is applied by default for the best visual experience.
 - Enhances the command palette appearance and behavior to match the modern theme.
-- **✨ NEW: Jupyter Notebook Support** - Modern styling for Jupyter notebook cells with rounded corners, proper spacing, and enhanced visual hierarchy.
 - Provides commands to easily enable or disable the custom styles.
 - **Completely Open Source:** Available on GitHub under the MIT license. Feel free to explore the code, contribute, or report issues on our [GitHub repository](https://github.com/sukarth/VS-Code-Modernized).
 
@@ -46,20 +45,6 @@ Or, disable the default behavior using the `vscode-modernized.autoApplyTheme` se
     - By default, the extension will also switch your color theme to 'Deep Blue Modern' for the optimal visual experience. You can disable this behavior in the settings (see [configuration](#configuration)).
 
 ## Usage
-
-### Jupyter Notebook Support
-
-This extension now includes comprehensive styling support for Jupyter notebooks in VS Code, providing:
-
-- **Rounded notebook cells** with modern shadows and borders
-- **Enhanced cell toolbars** with consistent styling
-- **Improved output containers** with better visual separation
-- **Styled markdown cells** with proper background and spacing
-- **Focus and hover effects** for better interaction feedback
-- **Consistent spacing** between cells using the extension's spacing variables
-- **Modern run buttons** and cell controls with hover effects
-
-All Jupyter notebook styling automatically uses the same customizable variables as the rest of the extension (`--spacing`, `--border-radius`), ensuring a cohesive visual experience.
 
 ### Commands
 
