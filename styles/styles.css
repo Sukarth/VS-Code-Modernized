@@ -302,7 +302,7 @@ div .search-view .search-widget .replace-input {
 }
 
 div.monaco-workbench>div:has(iframe.webview.ready) {
-    height: calc(100% - 22.5rem) !important;
+    height: 100% !important;
 }
 
 .monaco-inputbox input::placeholder {
