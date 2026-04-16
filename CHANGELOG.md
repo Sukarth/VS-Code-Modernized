@@ -4,6 +4,12 @@ All notable changes to the VS Code Modernized extension will be documented in th
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [v1.0.2] - 2026-04-16
+
+## Fixed
+- Fix issue #10 - PDFs do not appear in full by @maucejo in https://github.com/Sukarth/VS-Code-Modernized/pull/12
+
 ## [v1.0.1] - 2025-08-07
 
 ### Added
@@ -20,8 +26,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fixed a bug where the extension was unable to find the "workbench.html" file ([#7](https://github.com/Sukarth/VS-Code-Modernized/issues/7))
 - Fixed a bug where editor tabs would render underneath the title bar in certain occasions. [#6](https://github.com/Sukarth/VS-Code-Modernized/issues/6)
 - Fixed bug where the extensions list would not render completely, and was cut off. [#4](https://github.com/Sukarth/VS-Code-Modernized/issues/4)
-
-## [Released]
 
 ## [v1.0.0] - 2025-04-20
 
@@ -45,6 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Error handling during style/script injection and file operations.
 
 
-[Released]: https://github.com/Sukarth/VS-Code-Modernized/releases/
+[Releases]: https://github.com/Sukarth/VS-Code-Modernized/releases/
 [v1.0.0]: https://github.com/Sukarth/VS-Code-Modernized/releases/tag/v1.0.0
 [v1.0.1]: https://github.com/Sukarth/VS-Code-Modernized/releases/tag/v1.0.1
+[v1.0.2]: https://github.com/Sukarth/VS-Code-Modernized/releases/tag/v1.0.2
