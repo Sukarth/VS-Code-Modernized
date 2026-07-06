@@ -33,7 +33,7 @@ Or, disable the default behavior using the `vscode-modernized.autoApplyTheme` se
     - Ensure you have VS Code installed (tested with v1.99.0+, might also work on other versions).
     <!-- *   *(Optional but Recommended)* Install the [Geist Mono](https://vercel.com/font/mono) font for the intended look. -->
 2.  **Install the Extension:**
-    - **From VS Code Marketplace (Recommended):** Search for "VS Code Modernized" and install directly from VS Code, or use this link. _(Link will be available once published)_
+    - **From VS Code Marketplace (Recommended):** Search for "VS Code Modernized" and install directly from VS Code, or use [this link](https://marketplace.visualstudio.com/items?itemName=sukarth.vscode-modernized) to install the extension from the marketplace.
     - **From VSIX (Manual):** Download the `.vsix` file from the [Releases](https://github.com/sukarth/VS-Code-Modernized/releases) page. Open VS Code, go to the Extensions view (`Ctrl+Shift+X`), click the `...` menu, select "Install from VSIX...", and choose the downloaded file.
     - **⚠️ Note:** If you uninstall this extension later, you MUST run the `VS Code Modernized: Remove Styles` command first. See the [important note](#%EF%B8%8F-important-note) section for details.
 3.  **Apply Styles:**
