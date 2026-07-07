@@ -79,7 +79,6 @@
   },
   "scripts": {
     "vscode:prepublish": "npm install && npm run compile",
-    "release": "node scripts/create-release.js",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "lint": "eslint src --ext ts",
