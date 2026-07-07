@@ -1,6 +1,8 @@
 # VS Code Modernized ✨
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://marketplace.visualstudio.com/items?itemName=sukarth.vscode-modernized)
+[![Version](https://vsmarketplacebadges.dev/version-short/sukarth.vscode-modernized.svg)](https://marketplace.visualstudio.com/items?itemName=sukarth.vscode-modernized)
+[![Downloads](https://vsmarketplacebadges.dev/downloads-short/sukarth.vscode-modernized.svg)](https://marketplace.visualstudio.com/items?itemName=sukarth.vscode-modernized)
+[![Rating](https://vsmarketplacebadges.dev/rating-short/sukarth.vscode-modernized.svg)](https://marketplace.visualstudio.com/items?itemName=sukarth.vscode-modernized&ssr=false#review-details)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/sukarth/VS-Code-Modernized)
 
