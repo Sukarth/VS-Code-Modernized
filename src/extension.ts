@@ -15,6 +15,14 @@ const THEME_ID = 'Deep Blue Modern';
 const PREVIOUS_THEME_KEY = 'previousTheme';
 /** Key used in global state to track if styles have been successfully applied. */
 const APPLIED_STATE_KEY = 'stylesApplied';
+/** GitHub Sponsors URL. */
+const SPONSOR_URL = 'https://github.com/sponsors/Sukarth';
+/** Key: sponsor prompt permanently dismissed or acted upon. */
+const SPONSOR_PROMPT_DONE_KEY = 'sponsorPromptDone';
+/** Key: timestamp (ms) before which the sponsor prompt is snoozed. */
+const SPONSOR_SNOOZE_UNTIL_KEY = 'sponsorSnoozeUntil';
+/** Key: timestamp (ms) when styles were first successfully applied. */
+const FIRST_APPLIED_AT_KEY = 'firstAppliedAt';
 
 /** Cached path to the VS Code workbench HTML file. */
 let workbenchHtmlPath: vscode.Uri | undefined;
@@ -263,6 +271,9 @@ ${INJECTION_MARKER_END}
 
         // Mark styles as successfully applied in global state
         await extensionContext.globalState.update(APPLIED_STATE_KEY, true);
+    if (!extensionContext.globalState.get<number>(FIRST_APPLIED_AT_KEY)) {
+        await extensionContext.globalState.update(FIRST_APPLIED_AT_KEY, Date.now());
+    }
 
         // Prompt user to reload
         promptReload(`Styles applied successfully. Please reload VS Code to see the changes.`);
@@ -434,6 +445,10 @@ export async function activate(context: vscode.ExtensionContext) {
     }
     // --- End Version Check & Update Handling ---
 
+    // --- Sponsor Prompt (shown at most once, only to established users) ---
+    maybeShowSponsorPrompt(context).catch(err => console.error('Sponsor prompt error:', err));
+    // --- End Sponsor Prompt ---
+
     // --- Configuration Change Listener ---
     context.subscriptions.push(
         vscode.workspace.onDidChangeConfiguration(event => {
@@ -461,6 +476,58 @@ export async function activate(context: vscode.ExtensionContext) {
     // --- End Configuration Change Listener ---
 
     console.log(`${EXTENSION_ID} activated successfully (Version: ${currentVersion}).`);
+}
+
+/**
+ * Shows a one-time, dismissible sponsor prompt — only to users who have had
+ * styles applied for at least 3 days (i.e., people actually using the extension).
+ * Never shows again after any explicit choice; "Later" snoozes for 14 days.
+ */
+async function maybeShowSponsorPrompt(context: vscode.ExtensionContext): Promise<void> {
+    if (context.globalState.get<boolean>(SPONSOR_PROMPT_DONE_KEY, false)) {
+        return;
+    }
+    const stylesApplied = context.globalState.get<boolean>(APPLIED_STATE_KEY, false);
+    if (!stylesApplied) {
+        return; // Only prompt people who actually use the extension
+    }
+    // Backfill for users who applied styles before this version existed:
+    // if styles are applied but no timestamp was ever recorded, record it now
+    // (so the prompt starts its 3-day countdown from this point rather than never firing).
+    let firstAppliedAt = context.globalState.get<number>(FIRST_APPLIED_AT_KEY);
+    if (!firstAppliedAt) {
+        firstAppliedAt = Date.now();
+        await context.globalState.update(FIRST_APPLIED_AT_KEY, firstAppliedAt);
+    }
+    const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+    if (Date.now() - firstAppliedAt < THREE_DAYS_MS) {
+        return;
+    }
+    const snoozeUntil = context.globalState.get<number>(SPONSOR_SNOOZE_UNTIL_KEY, 0);
+    if (Date.now() < snoozeUntil) {
+        return;
+    }
+
+    const sponsorAction = '💖 Sponsor';
+    const laterAction = 'Later';
+    const neverAction = "Don't show again";
+    const choice = await vscode.window.showInformationMessage(
+        'Enjoying VS Code Modernized? It\'s free and open source: consider sponsoring to support development!',
+        sponsorAction,
+        laterAction,
+        neverAction
+    );
+
+    if (choice === sponsorAction) {
+        await vscode.env.openExternal(vscode.Uri.parse(SPONSOR_URL));
+        await context.globalState.update(SPONSOR_PROMPT_DONE_KEY, true);
+    } else if (choice === neverAction) {
+        await context.globalState.update(SPONSOR_PROMPT_DONE_KEY, true);
+    } else if (choice === laterAction) {
+        const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000;
+        await context.globalState.update(SPONSOR_SNOOZE_UNTIL_KEY, Date.now() + FOURTEEN_DAYS_MS);
+    }
+    // If dismissed without a choice (ESC / X), do nothing — it may show again next activation.
 }
 
 /**
